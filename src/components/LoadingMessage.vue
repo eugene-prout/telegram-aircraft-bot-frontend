@@ -7,7 +7,7 @@ const props = defineProps<{
     count: number
 }>();
 
-const timer = ref();
+const timerIntervalId = ref();
 const counter = ref(0);
 const display = ref(props.message)
 
@@ -25,13 +25,15 @@ function timerTick() {
 
 
 onMounted(() => {
-    timer.value = setInterval(() => {
+    timerIntervalId.value = setInterval(() => {
         timerTick();
     }, props.interval);
 });
 
 onBeforeUnmount(() => {
-    timer.value = null;
+    if (timerIntervalId.value !== undefined) {
+        clearInterval(timerIntervalId.value)
+    }
 });
 
 </script>
